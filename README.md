@@ -9,3 +9,4 @@ manage.py createsuperuser --username=<your-username>
 manage.py runserver
 ```
 OvO
+http://pythonbrad.pythonanywhere.com/blog/
