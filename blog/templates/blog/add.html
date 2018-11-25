@@ -1,0 +1,14 @@
+{% extends 'blog/base.html' %}
+{% load static %}
+{% block 'contains' %}
+<form method='POST'>
+{% csrf_token %}
+{% for form in forms %}
+<p>{{form.label_tag}}&nbsp;{{form}}</p>
+{% endfor %}
+<p><input type="submit"></p>
+</form>
+{% if article %}
+<form action="{% url 'delete' article.id %}" method="POST">{% csrf_token %}<p><input type="submit" class="btn-warning" value="delete"></p></form>
+{% endif %}
+{% endblock %}

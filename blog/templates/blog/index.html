@@ -1,0 +1,17 @@
+{% extends 'blog/base.html' %}
+{% load static %}
+{% block 'contains' %}
+{% for article in articles %}
+<div>Published: <i>{{article.pub_date}}</i></div>
+<h3 id='article_title'>
+	<u>{{article}}</u>
+	&nbsp;<a href="/blog/edit/{{article.id}}"><img src="{% static 'admin/img/icon-changelink.svg' %}" alt='[Edit]'></a>
+</h3>
+<p>
+{{article.contains}}
+</p>
+<hr>
+{% empty %}
+	<h3>Nothing for the moment.</h3>
+{% endfor %}
+{% endblock %}
