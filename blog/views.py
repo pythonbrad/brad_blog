@@ -9,28 +9,36 @@ def index(request):
 	return render(request, 'blog/index.html', {'articles':articles})
 
 def add(request):
-	forms = ArticleForm(request.POST)
-	if forms.is_valid():
-		forms.save()
-		return redirect(reverse('index'))
+	if request.user.is_authenticated:
+		forms = ArticleForm(request.POST)
+		if forms.is_valid():
+			forms.save()
+			return redirect(reverse('index'))
+		else:
+			return render(request, 'blog/add.html', {'forms':forms})
 	else:
-		return render(request, 'blog/add.html', {'forms':forms})
-
+		redirect(reverse('index'))
 
 def edit(request, id):
-	forms = ArticleForm(request.POST)
-	article = get_object_or_404(Article, pk=id)
-	if forms.is_valid():
-		article.title = forms.cleaned_data['title']
-		article.author = forms.cleaned_data['author']
-		article.contains = forms.cleaned_data['contains']
-		article.save()
-		return redirect(reverse('index'))
+	if request.user.is_authenticated:
+		forms = ArticleForm(request.POST)
+		article = get_object_or_404(Article, pk=id)
+		if forms.is_valid():
+			article.title = forms.cleaned_data['title']
+			article.author = forms.cleaned_data['author']
+			article.contains = forms.cleaned_data['contains']
+			article.save()
+			return redirect(reverse('index'))
+		else:
+			forms = ArticleForm(initial={'title':article.title,'author':article.author,'contains':article.contains})
+			return render(request, 'blog/add.html', {'forms':forms, 'article':article})
 	else:
-		forms = ArticleForm(initial={'title':article.title,'author':article.author,'contains':article.contains})
-		return render(request, 'blog/add.html', {'forms':forms, 'article':article})
+		redirect(reverse('index'))
 
 def delete(request, id):
-	article = get_object_or_404(Article, pk=id)
-	article.delete()
-	return redirect(reverse('index'))
+	if request.user.is_authenticated:
+		article = get_object_or_404(Article, pk=id)
+		article.delete()
+		return redirect(reverse('index'))
+	else:
+		redirect(reverse('index'))
