@@ -14,14 +14,13 @@
 <p>
 {{article.contains}}
 </p>
+<div>
+<i>
 {% if request.user.is_authenticated %}
 	<p><a href="{% url 'comment' article.id %}"><i>Comment</i></a></p>
 {% endif %}
-<div>
-<i>
-<p>Comment</p>
-{% for i in article.comment_set.all %}
-	<p id='comment'>{{i}}</p>
+{% for comment in article.comment_set.all|slice:"10" %}
+	<p id='comment'>{{comment.author}}: {{comment}}</p>
 {% empty %}
 	<p id='comment'>No comment for the moment.</p>
 {% endfor %}
