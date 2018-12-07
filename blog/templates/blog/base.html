@@ -9,7 +9,7 @@
 	</head>
 	<body>
 		<h1>The Brad's blog
-		{% if request.user.is_authenticated %}
+		{% if request.user.is_staff %}
 			<a href="{% url 'add' %}"><img src="{% static 'admin/img/icon-addlink.svg' %}" alt='[New]' width="50"></a>
 		{% else %}
 			<a style="font-size: 15px;" href="/admin" align='rigth'>ADMIN</a>

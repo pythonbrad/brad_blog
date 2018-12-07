@@ -11,3 +11,13 @@ class Article(models.Model):
 
 	def __str__(self):
 		return self.title
+
+class Comment(models.Model):
+	author = models.ForeignKey('auth.user', on_delete=models.CASCADE)
+	article = models.ForeignKey('Article', on_delete=models.CASCADE)
+	contains = models.TextField(max_length=255)
+	pub_date = models.DateTimeField(default=timezone.now)
+	is_visible = models.BooleanField(default=True)
+
+	def __str__(self):
+		return self.contains

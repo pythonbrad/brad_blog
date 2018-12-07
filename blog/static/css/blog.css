@@ -12,10 +12,15 @@ p, h3, div {
     margin-left: 40px;
 }
 
-h1, h2, h3, h4 {
+h1, h2, h3 {
     font-family: 'Lobster', cursive;
 }
 
 p {
 	font-size: 20px;
+}
+
+#comment {
+	margin-left: 80px;
+	font-size: 15px;
 }
