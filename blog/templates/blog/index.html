@@ -12,6 +12,7 @@
 	{% endif %}
 </h3>
 <p>
+<img src="{{ article.photo.url }}" width="100" heigth="100"><br/>
 {% autoescape off %}
 {{article.contains}}
 {% endautoescape %}
@@ -22,7 +23,9 @@
 	<p><a href="{% url 'comment' article.id %}"><i>Comment</i></a></p>
 {% endif %}
 {% for comment in article.comment_set.all|slice:"10" %}
-	<p id='comment'>{{comment.author}}: {{comment}}</p>
+	<p>{{comment.author}}: </p>
+	<p><img src="{{ article.photo.url }}" width="100" heigth="100"></p>
+	<p id='comment'>{{comment}}</p>
 {% empty %}
 	<p id='comment'>No comment for the moment.</p>
 {% endfor %}

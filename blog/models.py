@@ -9,6 +9,7 @@ class Article(models.Model):
     contains = models.TextField(default='')
     pub_date = models.DateTimeField(default=timezone.now)
     is_visible = models.BooleanField(default=True)
+    photo = models.ImageField(upload_to='photos/', default=None)
 
     def __str__(self):
         return self.title
@@ -20,6 +21,7 @@ class Comment(models.Model):
     contains = models.TextField(max_length=255)
     pub_date = models.DateTimeField(default=timezone.now)
     is_visible = models.BooleanField(default=True)
+    photo = models.ImageField(upload_to='photos/', default=None)
 
     def __str__(self):
         return self.contains

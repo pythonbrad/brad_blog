@@ -1,7 +1,7 @@
 {% extends 'blog/base.html' %}
 {% load static %}
 {% block 'contains' %}
-<form method='POST'>
+<form method='POST' enctype="multipart/form-data">
 {% csrf_token %}
 {% for form in forms %}
 <p>{{form.label_tag}}&nbsp;{{form}}</p>

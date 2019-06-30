@@ -12,4 +12,4 @@ class ArticleForm(forms.ModelForm):
 class CommentForm(forms.ModelForm):
     class Meta:
         model = Comment
-        fields = ['contains']
+        fields = ['contains', 'photo']

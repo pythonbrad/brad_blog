@@ -1,5 +1,4 @@
 from django.shortcuts import render, get_object_or_404, redirect, reverse
-from django.http import HttpResponse
 from .models import Article
 from .forms import ArticleForm
 from .models import Comment
@@ -14,12 +13,13 @@ def index(request):
 
 def add(request):
     if request.user.is_staff:
-        forms = ArticleForm(request.POST)
+        forms = ArticleForm(request.POST or None, request.FILES)
         if forms.is_valid():
             article = Article()
             article.title = forms.cleaned_data['title']
             article.author = request.user
             article.contains = forms.cleaned_data['contains']
+            article.photo = forms.cleaned_data['photo']
             article.save()
             return redirect(reverse('index'))
         else:
@@ -30,18 +30,20 @@ def add(request):
 
 def edit(request, id):
     if request.user.is_staff:
-        forms = ArticleForm(request.POST)
+        forms = ArticleForm(request.POST or None, request.FILES)
         article = get_object_or_404(Article, pk=id)
         if forms.is_valid():
             article.title = forms.cleaned_data['title']
             article.contains = forms.cleaned_data['contains']
+            article.photo = forms.cleaned_data['photo']
             article.save()
             return redirect(reverse('index'))
         else:
             forms = ArticleForm(initial={
                 'title': article.title,
                 'author': article.author,
-                'contains': article.contains})
+                'contains': article.contains,
+                'photo': article.photo})
             return render(request, 'blog/add.html', {'forms': forms})
     else:
         redirect(reverse('index'))
@@ -59,12 +61,13 @@ def delete(request, id):
 def comment(request, id):
     if request.user.is_authenticated:
         article = get_object_or_404(Article, pk=id)
-        forms = CommentForm(request.POST)
+        forms = CommentForm(request.POST or None, request.FILES)
         if forms.is_valid():
             _comment = Comment()
             _comment.article = article
             _comment.author = request.user
             _comment.contains = forms.cleaned_data['contains']
+            _comment.photo = forms.cleaned_data['photo']
             _comment.save()
             return redirect(reverse('index'))
         else:
